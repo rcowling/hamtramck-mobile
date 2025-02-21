@@ -377,6 +377,20 @@ fetch('config.json')
                     }
                 });
 
+                function switchFootprints (year) {
+                    if (year == "1951" ) {                       
+                        buildingsLayer.definitionExpression = "year = '1949_1951'";
+                    } else if (year == "1915") {
+                        buildingsLayer.definitionExpression = "year = '1915'";
+                    } else if (year == "1910") {
+                        buildingsLayer.definitionExpression = "year = '1910'";
+                    } else if (year == "1897") {
+                        buildingsLayer.definitionExpression = "year = '1897'";
+                    } else {
+                        buildingsLayer.definitionExpression = "year = 'Modern'";
+                    }
+                }
+
                 // Dynamically generates a story for the modal
                 // Either on click or from URL paramters 
                 function buildStory(graphic) {
@@ -750,10 +764,23 @@ fetch('config.json')
                     }
                 };
 
+                // Create a style for the buildingsLayer
+               const buildingsRenderer = {
+                 type: "simple",  // autocasts as new SimpleRenderer()
+                 symbol: {
+                   type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+                   color: [ 255, 0, 0, 0],
+                   outline: {  // autocasts as new SimpleLineSymbol()
+                     width: 2,
+                     color: [157, 0, 255],
+                   }
+                 }
+               }; 
+
                 // Layer for the map index 
                 const indexLayer = new FeatureLayer({
                     url: config.layers.indexLayerUrl,
-                    outFields: ["title", "year", "service_url"], // Return all fields so it can be queried client-side
+                    outFields: ["title", "mapyear", "service_url"], // Return all fields so it can be queried client-side
                     opacity: 0
                     //renderer: renderer
                 });
@@ -767,11 +794,19 @@ fetch('config.json')
                     visible: true
                 });
 
+                 // Add the Sanborn buildings layer to the map   
+                const buildingsLayer = new FeatureLayer({
+                    url: config.layers.buildingLayerUrl,
+                    outFields: ["*"], // Return all fields so it can be queried client-side
+                    renderer: buildingsRenderer,
+                    popupEnabled: true 
+                  });
+
                 const graphicsLayer = new GraphicsLayer();
 
                 const map = new Map({
                     basemap: config.map.basemap, // Basemap layer service
-                    layers: [indexLayer, storyLayer, graphicsLayer]
+                    layers: [indexLayer, storyLayer, graphicsLayer, buildingsLayer]
                 });
 
                 const view = new MapView({
@@ -783,6 +818,9 @@ fetch('config.json')
                         fillOpacity: 0
                     },
                 });
+
+                // default definition express for buildingLayer because no map is set
+                buildingsLayer.definitionExpression = "year = 'Modern'";
 
                 // Removes the zoom widget from the view
                 view.ui.remove("zoom");
@@ -980,7 +1018,7 @@ fetch('config.json')
 
                                     // Sort the features first by title, then by year  
                                     graphics.sort(function(a, b) {
-                                        return a.attributes.title.localeCompare(b.attributes.title) || a.attributes.year - b.attributes.year;
+                                        return a.attributes.title.localeCompare(b.attributes.title) || a.attributes.mapyear - b.attributes.mapyear;
                                     });
 
                                     document.getElementById("mapcount").innerHTML = results.features.length;
@@ -989,7 +1027,7 @@ fetch('config.json')
                                     graphics.forEach(function(result, index) {
                                         const attributes = result.attributes;
                                         const title = attributes.title;
-                                        const year = attributes.year;
+                                        const year = attributes.mapyear;
                                         item = document.createElement("ion-item");
                                         const label = document.createElement("ion-label");
                                         const icon = document.createElement("ion-icon");
@@ -1019,7 +1057,7 @@ fetch('config.json')
                                             }
                                         });
 
-                                        currentMapUrl = result.attributes.service_url;
+                                       currentMapUrl = result.attributes.service_url;
 
                                        current_layer = new TileLayer({
                                             url: result.attributes.service_url
@@ -1029,6 +1067,11 @@ fetch('config.json')
 
                                         // push the current layer to the back
                                         map.reorder(current_layer, 1);
+
+                                        // filter the footprints based on the selected map year
+                                        switchFootprints(result.attributes.mapyear);
+
+                                        console.log(result);
 
                                         // get the value of the range slider  
                                         let rangeVal = $("ion-range").val();

@@ -1,18 +1,19 @@
 {
   "map": {
-    "extent": [0,0],
-    "basemap": "topo",
-    "zoom": 2
+    "extent": [-83.0496,42.3928],
+    "basemap": "satellite",
+    "zoom": 15
   },
   "navbar": {
-    "title": "CDMI HGIS Mobile App",
-    "backgroundColor": "#285756",
-    "logo": "assets/dmilogo.png",
+    "title": "Hamtramck Explorer",
+    "backgroundColor": "#0e3658",
+    "logo": "assets/logos.svg",
     "textColor": "#ffffff"  
   },
   "layers": {
-    "storiesLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/CDMI_Story_Template_Layer/FeatureServer/0",
-    "indexLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/KeTT_Mobile_Map_Indexes/FeatureServer/0"
+    "storiesLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/Hamtramck_Story_Points/FeatureServer/0",
+    "indexLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/Hamtramck_Mobile_Map_Indexes/FeatureServer/0",
+    "buildingLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/Hamtramck_Buildings_June_2023/FeatureServer/0" 
   },
   "markers": {
     "storyMarkerUrl": "assets/marker_story.png",
@@ -21,11 +22,11 @@
   },
   "splashScreen": {
     "visible": true,
-    "title": "HGIS Mobile App",
+    "title": "Hamtramck Explorer",
     "titleColor": "#ffffff",
-    "backgroundColor": "#285756",
+    "backgroundColor": "#0e3658",
     "textColor": "#ffffff",
-    "paragraphText": "This is an HGIS Mobile app example. Put information about your app here. HTML tags are accepted.",
+    "paragraphText": "Welcome to the mobile version of the Hamtramck Explorer.",
     "image": "assets/cdmibanner.png",
     "navBarColor": "#363636",
     "navBarTextColor": "#ffffff",
@@ -50,7 +51,7 @@
     "iconColorActive": "#0054e9"  
   },   
   "storyButtons": {
-    "backgroundColor": "#5f5f5f",
+    "backgroundColor": "#0e3658",
     "fontColor": "#ffffff"
   },
   "storySubmittedIcon": {
@@ -58,7 +59,7 @@
   },
   "storyProgressBar": {
     "colorInactive": "#0163aa",
-    "colorActive": "#1a73b3"
+    "colorActive": "#e43133"
   },
   "storyPopup": {
     "headerBackgroundColor": "#5f5f5f",
@@ -80,16 +81,16 @@
   },
   "links": [
     {
-      "text": "About the project",
-      "url": "https://www.keweenawhistory.com/about-the-project.html"
+      "text": "Hamtramck Desktop",
+      "url": "https://mtugrf.github.io/hamtramckapp/"
     },
     {
-      "text": "About the maps",
-      "url": "https://www.keweenawhistory.com/about-the-maps.html"
+      "text": "Hamtramck HSDI",
+      "url": "https://portal1-geo.sabu.mtu.edu/mtuarcgis/apps/sites/#/hamtramck-hsdi"
     },
     {
-      "text": "Meet the team",
-      "url": "https://www.keweenawhistory.com/meet-the-team.html"
+      "text": "Hamtramck Historical Museum",
+      "url": "https://hamtramckhistory.com/"
     }
   ]  
 }
