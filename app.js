@@ -10,6 +10,8 @@ window.Ionic = {
 fetch('config.json')
     .then(response => response.json())
     .then(config => {
+        // Apply title from the config.json file
+        document.title = config.navbar.title;
         // Apply style settings from the config.json file
         const appTitle = document.getElementById('appTitle');
         const mainToolbar = document.getElementById('mainToolbar');
@@ -775,7 +777,7 @@ fetch('config.json')
                      color: [157, 0, 255],
                    }
                  }
-               }; 
+               };                
 
                 // Layer for the map index 
                 const indexLayer = new FeatureLayer({
@@ -801,6 +803,11 @@ fetch('config.json')
                     renderer: buildingsRenderer,
                     popupEnabled: true 
                   });
+
+                // popup template for the footprints layer
+               buildingsLayer.popupTemplate = {
+                 content: "content"
+                };
 
                 const graphicsLayer = new GraphicsLayer();
 

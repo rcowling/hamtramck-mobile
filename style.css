@@ -125,7 +125,12 @@
       #splashText {
         font-size: 18px;
         color: white;
-      } 
+      }
+
+      .esri-ui .esri-popup  {
+        display:  none !important;
+      }  
+ 
       /* CSS specific to iOS devices */ 
       @supports (-webkit-touch-callout: none) {
         ion-range {
