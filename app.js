@@ -100,6 +100,11 @@ fetch('config.json')
             linkList.appendChild(ionItem);
         });
 
+        var objectsModal = document.getElementById('objectsModal');
+        var searchBar = document.querySelector('ion-searchbar');
+
+        objectsModal.breakpoints = [0, 0.25, 0.5, 0.75];
+
         require(["esri/config",
                 "esri/Map",
                 "esri/views/MapView",
@@ -108,9 +113,10 @@ fetch('config.json')
                 "esri/widgets/Track", "esri/Graphic",
                 "esri/layers/GraphicsLayer",
                 "esri/geometry/support/webMercatorUtils",
+                "esri/core/reactiveUtils",
                 "esri/geometry/Point"
             ],
-            function(esriConfig, Map, MapView, FeatureLayer, TileLayer, Track, Graphic, GraphicsLayer, webMercatorUtils, Point) {
+            function(esriConfig, Map, MapView, FeatureLayer, TileLayer, Track, Graphic, GraphicsLayer, webMercatorUtils, reactiveUtils, Point) {
                 function validateFile(file) {
                     const video = document.createElement('video');
                     video.preload = 'metadata';
@@ -801,7 +807,15 @@ fetch('config.json')
                     url: config.layers.buildingLayerUrl,
                     outFields: ["*"], // Return all fields so it can be queried client-side
                     renderer: buildingsRenderer,
+                    id: "bldg-layer",
                     popupEnabled: true 
+                  });
+
+                 // Create a layer for the HHM Objects table   
+                const objectsTable = new FeatureLayer({
+                    url: config.layers.objectsTableUrl,
+                    isTable: true,
+                    outFields: ["*"], // Return all fields so it can be queried client-side                   
                   });
 
                 // popup template for the footprints layer
@@ -1002,6 +1016,60 @@ fetch('config.json')
 
                         console.log('map hold' + lon, lat);
                     });
+                });
+
+                const listNodeObjects = document.getElementById("objectsContent");
+
+                // watch for click on the building footprints layer
+                reactiveUtils.watch(
+                  () => view.popup.selectedFeature,
+                  (graphic) => {
+                    if (graphic) {
+                        // indentify the correct layer
+                        if (graphic.layer.id == "bldg-layer") {
+                            // get the building id from the graphic
+                            const bldgId = graphic.attributes.uniqueid;
+                            console.log(bldgId);
+                            // query the HHM Objects table for all objects associated with this building footprint
+                            let query = objectsTable.createQuery();                            
+                            query.where = "alt_place_id = '" + bldgId + "'" ;
+                            query.outFields = ["*"];
+                            // execute the query for the historical records based on the id of the building clicked
+                            objectsTable.queryFeatures(query)
+                              .then(function(response) {
+                                console.log(response);
+                                if (response.features.length > 0) {  
+                                    const fragment = document.createDocumentFragment();                                  
+                                    const features = response.features;
+                                    features.forEach(function(feature) {
+                                        const attributes = feature.attributes;
+                                        const itemName = attributes.item_name;
+                                        const date = attributes.date_;                                       
+                                        item = document.createElement("ion-item");
+                                        const label = document.createElement("ion-label");
+                                        const icon = document.createElement("ion-icon"); 
+                                        const arrow = document.createElement("ion-icon");
+                                        item.href = "#";
+                                        item.detail = "false";                                         
+                                        icon.slot = "start"; 
+                                        arrow.name = "arrow-forward";
+                                        arrow.slot = "end";                  
+                                        label.innerHTML = itemName + " " + date; 
+                                        item.appendChild(icon);
+                                        item.appendChild(arrow);
+                                        item.appendChild(label);
+                                       // item.addEventListener("click", () => resultClickHandler(result, index));
+                                        fragment.appendChild(item);                     
+                                        listNodeObjects.appendChild(fragment);
+                                        objectsModal.isOpen = true;
+                                    });
+
+                                }
+                            });
+
+                        }                           
+
+                    }
                 });
 
                 const listNode = document.getElementById("mapcontent");

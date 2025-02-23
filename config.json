@@ -13,7 +13,8 @@
   "layers": {
     "storiesLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/Hamtramck_Story_Points/FeatureServer/0",
     "indexLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/Hamtramck_Mobile_Map_Indexes/FeatureServer/0",
-    "buildingLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/Hamtramck_Buildings_June_2023/FeatureServer/0" 
+    "buildingLayerUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/Hamtramck_Buildings_June_2023/FeatureServer/0",
+    "objectsTableUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/HHM_Objects_Catalog_v7/FeatureServer/0" 
   },
   "markers": {
     "storyMarkerUrl": "assets/marker_story.png",
