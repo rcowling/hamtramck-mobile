@@ -245,20 +245,20 @@
         </ion-modal>
         <ion-modal id="photoModal">
             <ion-header>
-                <ion-toolbar id=photoToolbar>
-                    <ion-text color="white">
+                <ion-toolbar id="photoToolbar">
+                    <ion-text color="black">
                         <ion-title id="photomodaltitle">Story</ion-title>
                     </ion-text>
                     <ion-buttons slot="end">
-                        <ion-text color="white">
-                            <ion-button id="modalClose">Close</ion-button>
+                        <ion-text color="black">
+                            <ion-button id="photoModalClose">Close</ion-button>
                         </ion-text>
                     </ion-buttons>
                 </ion-toolbar>
             </ion-header>
             <ion-content class="ion-padding">
                 <ion-card>
-                    <img src="" id="storyimg" />
+                    <img src="" id="objectimg" />
                     <ion-card-header>
                         <ion-card-subtitle id="photosubtitle"></ion-card-subtitle>
                         <ion-card-title id="phototitle"></ion-card-title>
@@ -270,10 +270,13 @@
             </ion-content>
         </ion-modal>
         <ion-modal initial-breakpoint="0.25" backdrop-dismiss="false" backdrop-breakpoint="0.5" id="objectsModal">
-    <ion-content id="objectsContent" class="ion-padding">
-        <ion-card-title id="phototitle">1234 Arch Street</ion-card-title>
+    <ion-content class="ion-padding">
+        <h5 id="address"><ion-icon name="home-outline"></ion-icon> 1234 Arch Street</h5>
+        <p>Objects associated with this building</p>
+          <div id="objectsContent">
         <ion-list mode="ios">       
-        </ion-list>    
+        </ion-list>  
+        </div>  
     </ion-content>
   </ion-modal>
 

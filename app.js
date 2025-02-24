@@ -385,9 +385,11 @@ fetch('config.json')
                         console.log("getUserMedia not supported on your browser!");
                     }
                 });
-
+                // Changes the building footprints based on the Sanborn Map Year
                 function switchFootprints (year) {
-                    if (year == "1951" ) {                       
+                    if (year == "1949_1951" ) {                       
+                        buildingsLayer.definitionExpression = "year = '1949_1951'";
+                    } else if (year == "1951") {
                         buildingsLayer.definitionExpression = "year = '1949_1951'";
                     } else if (year == "1915") {
                         buildingsLayer.definitionExpression = "year = '1915'";
@@ -395,8 +397,10 @@ fetch('config.json')
                         buildingsLayer.definitionExpression = "year = '1910'";
                     } else if (year == "1897") {
                         buildingsLayer.definitionExpression = "year = '1897'";
-                    } else {
+                    } else if (year == "Modern") {
                         buildingsLayer.definitionExpression = "year = 'Modern'";
+                    } else {
+                        buildingsLayer.definitionExpression = "year = '0000'";
                     }
                 }
 
@@ -1031,7 +1035,11 @@ fetch('config.json')
                             listNodeObjects.innerHTML = ""; 
                             // get the building id from the graphic
                             const bldgId = graphic.attributes.uniqueid;
-                            console.log(bldgId);
+                            // get the address of the building
+                            const bldgAddress = graphic.attributes.address;
+                            console.log(bldgAddress);
+                            // use the address in the modal
+                            $('#address').html('<h5 id="address"><ion-icon name="home-outline"></ion-icon> ' + bldgAddress + '</h5>');
                             // query the HHM Objects table for all objects associated with this building footprint
                             let query = objectsTable.createQuery();                            
                             query.where = "alt_place_id = '" + bldgId + "'" ;
@@ -1043,7 +1051,7 @@ fetch('config.json')
                                 if (response.features.length > 0) {  
                                     const fragment = document.createDocumentFragment();                                  
                                     const features = response.features;
-                                    features.forEach(function(feature) {
+                                    features.forEach(function(feature, index) {
                                         const attributes = feature.attributes;
                                         const itemName = attributes.item_name;
                                         const date = attributes.date_;                                       
@@ -1061,22 +1069,30 @@ fetch('config.json')
                                         item.appendChild(icon);
                                         //item.appendChild(arrow);
                                         item.appendChild(label);
-                                        item.addEventListener("click", () => objectClickHandler(result, index));
+                                        item.addEventListener("click", () => objectClickHandler(feature, index));
                                         fragment.appendChild(item);                     
                                         listNodeObjects.appendChild(fragment);
                                         objectsModal.isOpen = true;
                                     });
 
-                                    function objectClickHandler(result, index) {
-                                        const photos = result.attributes.app_photos; 
-                                        const desc = result.attributes.brief_description;
-                                        const date = result.attributes.date_;
-                                        const name = result.attributes.item_name;
+                                    function objectClickHandler(feature, index) {
+                                        const photoDiv = document.getElementById("objectimg");
+                                        const photos = feature.attributes.app_photos; 
+                                        const photo = photos.split(",");
+                                        console.log(photo[0]);
+                                        const desc = feature.attributes.brief_description;
+                                        const date = feature.attributes.date_;
+                                        const name = feature.attributes.item_name;
+                                        const catNum = feature.attributes.catalog_number;
 
-                                        $('#subtitle').html(date);
-                                        $('#storydesc').html(desc);
-                                        $('#storytitle').html(title);
+                                        photoDiv.src= "https://portal1-geo.sabu.mtu.edu/images/hamtramck/photos/objects/" + catNum + "/" + photo[0].replace(/ /g, "");
+
+                                        $('#photosubtitle').html(date);
+                                        $('#photodesc').html(desc);
+                                        $('#phototitle').html(name);
                                         $('#photomodaltitle').html(name);
+
+                                        photoModal.isOpen = true;
                                     }
                                 }
                             });
@@ -1251,6 +1267,10 @@ fetch('config.json')
 
                 $("#modalClose").click(function() {
                     storyModal.isOpen = false;
+                });
+
+                $("#photoModalClose").click(function() {
+                    photoModal.isOpen = false;
                 });
 
                 objectsModal.addEventListener('didDismiss', (ev) => {
