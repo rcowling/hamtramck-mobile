@@ -1027,6 +1027,7 @@ fetch('config.json')
                     if (graphic) {
                         // indentify the correct layer
                         if (graphic.layer.id == "bldg-layer") {
+                            listNodeObjects.innerHTML = ""; 
                             // get the building id from the graphic
                             const bldgId = graphic.attributes.uniqueid;
                             console.log(bldgId);
@@ -1238,6 +1239,10 @@ fetch('config.json')
 
                 $("#modalClose").click(function() {
                     storyModal.isOpen = false;
+                });
+
+                objectsModal.addEventListener('didDismiss', (ev) => {
+                    objectsModal.isOpen = false;
                 });
 
                 splashModal.addEventListener('didDismiss', (ev) => {
