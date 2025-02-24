@@ -101,6 +101,7 @@ fetch('config.json')
         });
 
         var objectsModal = document.getElementById('objectsModal');
+        var photoModal = document.getElementById('photoModal');
         var searchBar = document.querySelector('ion-searchbar');
 
         objectsModal.breakpoints = [0, 0.25, 0.5, 0.75];
@@ -1060,12 +1061,23 @@ fetch('config.json')
                                         item.appendChild(icon);
                                         //item.appendChild(arrow);
                                         item.appendChild(label);
-                                       // item.addEventListener("click", () => resultClickHandler(result, index));
+                                        item.addEventListener("click", () => objectClickHandler(result, index));
                                         fragment.appendChild(item);                     
                                         listNodeObjects.appendChild(fragment);
                                         objectsModal.isOpen = true;
                                     });
 
+                                    function objectClickHandler(result, index) {
+                                        const photos = result.attributes.app_photos; 
+                                        const desc = result.attributes.brief_description;
+                                        const date = result.attributes.date_;
+                                        const name = result.attributes.item_name;
+
+                                        $('#subtitle').html(date);
+                                        $('#storydesc').html(desc);
+                                        $('#storytitle').html(title);
+                                        $('#photomodaltitle').html(name);
+                                    }
                                 }
                             });
 

@@ -243,12 +243,37 @@
                 </ion-card>
             </ion-content>
         </ion-modal>
-        <ion-modal trigger="open-modal" initial-breakpoint="0.25" id="objectsModal">
-    <ion-content id="objectsContent">
-        <ion-list mode="ios">
-       
-        </ion-list>
-    
+        <ion-modal id="photoModal">
+            <ion-header>
+                <ion-toolbar id=photoToolbar>
+                    <ion-text color="white">
+                        <ion-title id="photomodaltitle">Story</ion-title>
+                    </ion-text>
+                    <ion-buttons slot="end">
+                        <ion-text color="white">
+                            <ion-button id="modalClose">Close</ion-button>
+                        </ion-text>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-card>
+                    <img src="" id="storyimg" />
+                    <ion-card-header>
+                        <ion-card-subtitle id="photosubtitle"></ion-card-subtitle>
+                        <ion-card-title id="phototitle"></ion-card-title>
+                    </ion-card-header>
+                    <ion-card-subtitle id="photodate" style="margin-left: 15px;"></ion-card-subtitle>
+                    <ion-card-content id="photodesc">
+                    </ion-card-content>                    
+                </ion-card>
+            </ion-content>
+        </ion-modal>
+        <ion-modal initial-breakpoint="0.25" backdrop-dismiss="false" backdrop-breakpoint="0.5" id="objectsModal">
+    <ion-content id="objectsContent" class="ion-padding">
+        <ion-card-title id="phototitle">1234 Arch Street</ion-card-title>
+        <ion-list mode="ios">       
+        </ion-list>    
     </ion-content>
   </ion-modal>
 
