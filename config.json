@@ -86,7 +86,7 @@
   "transparencySlider": {
     "barColor": "#83A1A0",    
     "barColorActive": "#d7d8da",
-    "barColorInactive": "#7045ff",
+    "barColorInactive": "#9d00ff",
     "handleColor": "#ffffff"
   },
   "links": [
