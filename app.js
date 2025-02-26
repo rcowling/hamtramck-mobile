@@ -16,6 +16,7 @@ fetch('config.json')
         const appTitle = document.getElementById('appTitle');
         const mainToolbar = document.getElementById('mainToolbar');
         const storyToolbar = document.getElementById('storyToolbar');
+        const photoToolbar = document.getElementById('photoToolbar');
         const footer = document.getElementById('footer');
         const splash = document.getElementById('splashModal');
         const splashText = document.getElementById('splashText');
@@ -80,6 +81,9 @@ fetch('config.json')
         document.documentElement.style.setProperty('--ion-border-color', config.body.textColor);
         storyToolbar.style.setProperty('--ion-toolbar-background', config.storyPopup.headerBackgroundColor);
         storymodaltitle.style.setProperty('color', config.storyPopup.headerTextColor);
+        photoToolbar.style.setProperty('--ion-toolbar-background', config.objectPopup.headerBackgroundColor);
+        photomodaltitle.style.setProperty('color', config.objectPopup.headerTextColor);
+        photoModalClose.style.setProperty('color', config.objectPopup.closeBtnColor);
 
         // Generare links from the link list
         const links = config.links; // Array of links from config.json
@@ -653,6 +657,7 @@ fetch('config.json')
                             name: name,
                             userdate: date,
                             map: currentMapUrl,
+                            mapyear: currentMapYear
                         },
                         geometry: {
                             x: lon,
@@ -784,8 +789,8 @@ fetch('config.json')
                    type: "simple-fill",  // autocasts as new SimpleFillSymbol()
                    color: [ 255, 0, 0, 0],
                    outline: {  // autocasts as new SimpleLineSymbol()
-                     width: 2,
-                     color: [157, 0, 255],
+                     width: config.buildingFootprintsOutline.width,
+                     color: config.buildingFootprintsOutline.color,
                    }
                  }
                };                
@@ -832,7 +837,7 @@ fetch('config.json')
 
                 const map = new Map({
                     basemap: config.map.basemap, // Basemap layer service
-                    layers: [indexLayer, storyLayer, graphicsLayer, buildingsLayer]
+                    layers: [indexLayer, graphicsLayer, buildingsLayer, storyLayer]
                 });
 
                 const view = new MapView({
@@ -873,6 +878,7 @@ fetch('config.json')
                         const urlParams = new URLSearchParams(queryString);
                         const storyId = urlParams.get('id');
                         const mapid = urlParams.get('map');
+                        const mapyear = urlParams.get('mapyear');
                         console.log(storyId, mapid);
 
                         const storyQuery = {
@@ -897,6 +903,8 @@ fetch('config.json')
 
                             // push the current layer to the back
                             map.reorder(storyMapLayer, 1);
+
+                            switchFootprints(mapyear);
 
                             // get the value of the range slider  
                             let rangeVal = $("ion-range").val();
@@ -1105,7 +1113,8 @@ fetch('config.json')
                 const listNode = document.getElementById("mapcontent");
 
                 let graphics;
-                let currentMapUrl = 'present'; // track the url of the currently selected overlay map 
+                let currentMapUrl = 'present'; // track the url of the currently selected overlay map
+                let currentMapYear = "Modern"; // track the current map year 
                 view.whenLayerView(indexLayer).then(function(layerView) {
                     layerView.watch("updating", function(value) {
                         listNode.innerHTML = "";
@@ -1152,6 +1161,7 @@ fetch('config.json')
 
                                     function resultClickHandler(result, index) {
                                         currentMapUrl = 'present';
+                                        currentMapYear = 'Modern';
 
                                         tabs.select('home');
                                         const popup = graphics && graphics[parseInt(index, 10)];
@@ -1163,6 +1173,7 @@ fetch('config.json')
                                         });
 
                                        currentMapUrl = result.attributes.service_url;
+                                       currentMapYear = result.attributes.mapyear;
 
                                        current_layer = new TileLayer({
                                             url: result.attributes.service_url
@@ -1211,7 +1222,7 @@ fetch('config.json')
                         .then((response) => {
                             const baseURL = window.location.href;
                             const locCode = response.features[0].attributes.loccode;
-                            const rawShareURL = baseURL + "?id=" + graphic.attributes.objectid + "&title=" + graphic.attributes.title + "&map=" + graphic.attributes.map;
+                            const rawShareURL = baseURL + "?id=" + graphic.attributes.objectid + "&title=" + graphic.attributes.title + "&mapyear=" + graphic.attributes.mapyear + "&map=" + graphic.attributes.map;
 
                             shareURL = rawShareURL.replace(/\s/g, '%20');
                             shareURL = shareURL.replace(/\|/g, "%7C");

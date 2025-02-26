@@ -17,9 +17,13 @@
     "objectsTableUrl": "https://portal1-geo.sabu.mtu.edu/server/rest/services/Hosted/HHM_Objects_Catalog_v7/FeatureServer/0" 
   },
   "markers": {
-    "storyMarkerUrl": "assets/marker_story.png",
-    "storyMarkerWidth": "20px",
-    "storyMarkerHeight": "20px"
+    "storyMarkerUrl": "assets/marker_story_red.svg",
+    "storyMarkerWidth": "22px",
+    "storyMarkerHeight": "22px"
+  },
+  "buildingFootprintsOutline": {
+     "color": "#9d00ff",
+     "width": "2"
   },
   "splashScreen": {
     "visible": true,
@@ -43,7 +47,7 @@
     "iconColorActive": "#0054e9"
   },
   "mapCountIcon": {
-    "backgroundColor": "#0054e9",
+    "backgroundColor": "#7045ff",
     "textColor": "#fff"
   },
   "gpsButton": {
@@ -56,15 +60,20 @@
     "fontColor": "#ffffff"
   },
   "storySubmittedIcon": {
-    "color": "#0054e9"
+    "color": "#0e3658"
   },
   "storyProgressBar": {
     "colorInactive": "#0163aa",
     "colorActive": "#e43133"
   },
   "storyPopup": {
-    "headerBackgroundColor": "#5f5f5f",
+    "headerBackgroundColor": "#e43133",
     "headerTextColor": "#ffffff"   
+  },
+  "objectPopup": {
+    "headerBackgroundColor": "purple",
+    "headerTextColor": "#ffffff",
+    "closeBtnColor": "#ffffff"
   },
   "mapTab": {
     "backgroundColor": "#ffffff",
@@ -77,7 +86,7 @@
   "transparencySlider": {
     "barColor": "#83A1A0",    
     "barColorActive": "#d7d8da",
-    "barColorInactive": "#83A1A0",
+    "barColorInactive": "#7045ff",
     "handleColor": "#ffffff"
   },
   "links": [
