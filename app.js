@@ -793,7 +793,22 @@ fetch('config.json')
                      color: config.buildingFootprintsOutline.color,
                    }
                  }
-               };                
+               };        
+               // adjust the width based on zoom level
+               buildingsRenderer.visualVariables = [
+                  {
+                    type: "size",
+                    valueExpression: "$view.scale", // Using map scale to determine outline width
+                    target: "outline", // Ensure we are modifying the outline width
+                    stops: [
+                      { value: 1128, size: 4 },  // Zoom level 21 (very close)
+                      { value: 2256, size: 3 },  // Zoom level 20
+                      { value: 4500, size: 2 },  // Zoom level 19
+                      { value: 9028, size: 1 },  // Zoom level 18
+                      { value: 18056, size: 0.5 } // Zoom level 17
+                    ]
+                  }
+                ];        
 
                 // Layer for the map index 
                 const indexLayer = new FeatureLayer({
@@ -1282,6 +1297,10 @@ fetch('config.json')
 
                 $("#photoModalClose").click(function() {
                     photoModal.isOpen = false;
+                });
+
+                $("#objectModalClose").click(function() {
+                    objectsModal.isOpen = false;
                 });
 
                 objectsModal.addEventListener('didDismiss', (ev) => {

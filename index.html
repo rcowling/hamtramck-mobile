@@ -270,9 +270,16 @@
             </ion-content>
         </ion-modal>
         <ion-modal initial-breakpoint="0.25" backdrop-dismiss="false" backdrop-breakpoint="0.5" id="objectsModal">
-    <ion-content class="ion-padding">
-        <h5 id="address"><ion-icon name="home-outline"></ion-icon> 1234 Arch Street</h5>
-        <p>Objects associated with this building</p>
+             <ion-toolbar id="objectToolbar"> 
+             <center><h5 id="address"><ion-icon name="home-outline"></ion-icon> 1234 Arch Street</h5></center>                  
+                    <ion-buttons slot="end">
+                        <ion-text color="black">
+                            <ion-button id="objectModalClose">CLOSE</ion-button>
+                        </ion-text>
+                    </ion-buttons>
+                </ion-toolbar>
+    <ion-content class="ion-padding">        
+        <center><p>Objects associated with this building</p></center>
           <div id="objectsContent">
         <ion-list mode="ios">       
         </ion-list>  
