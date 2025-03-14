@@ -836,6 +836,14 @@ fetch('config.json')
                     popupEnabled: true 
                   });
 
+                 // Add the Sanborn buildings layer to the map   
+                const tourLayer = new FeatureLayer({
+                    url: config.layers.tourLayerUrl,
+                    outFields: ["*"], // Return all fields so it can be queried client-side                    
+                    id: "tour-layer",
+                    popupEnabled: false
+                  });
+
                  // Create a layer for the HHM Objects table   
                 const objectsTable = new FeatureLayer({
                     url: config.layers.objectsTableUrl,
@@ -852,7 +860,7 @@ fetch('config.json')
 
                 const map = new Map({
                     basemap: config.map.basemap, // Basemap layer service
-                    layers: [indexLayer, graphicsLayer, buildingsLayer, storyLayer]
+                    layers: [indexLayer, graphicsLayer, buildingsLayer, tourLayer, storyLayer]
                 });
 
                 const view = new MapView({
