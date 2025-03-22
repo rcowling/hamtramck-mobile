@@ -16,6 +16,16 @@ objectsModal.breakpoints = [0, 0.25, 0.5, 0.75];
 fetch('config.json')
     .then(response => response.json())
     .then(config => {
+        // set the theme color
+        function changeThemeColor(newColor) {
+            const metaTag = document.querySelector('meta[name="theme-color"]');
+            if (metaTag) {
+                metaTag.setAttribute('content', newColor);
+            }
+        }
+
+        changeThemeColor(config.navbar.backgroundColor);
+         
         // Apply title from the config.json file
         document.title = config.navbar.title;
         // Apply style settings from the config.json file
