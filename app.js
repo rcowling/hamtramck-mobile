@@ -6,6 +6,12 @@ window.Ionic = {
     },
 };
 
+var objectsModal = document.getElementById('objectsModal');
+var photoModal = document.getElementById('photoModal');
+var searchBar = document.querySelector('ion-searchbar');
+
+objectsModal.breakpoints = [0, 0.25, 0.5, 0.75];
+
 // Fetch the config.json file
 fetch('config.json')
     .then(response => response.json())
@@ -104,11 +110,7 @@ fetch('config.json')
             linkList.appendChild(ionItem);
         });
 
-        var objectsModal = document.getElementById('objectsModal');
-        var photoModal = document.getElementById('photoModal');
-        var searchBar = document.querySelector('ion-searchbar');
-
-        objectsModal.breakpoints = [0, 0.25, 0.5, 0.75];
+        
 
         require(["esri/config",
                 "esri/Map",
