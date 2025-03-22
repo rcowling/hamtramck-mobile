@@ -27,7 +27,7 @@
      "width": "2"
   },
   "splashScreen": {
-    "visible": true,
+    "visible": false,
     "title": "Hamtramck Explorer",
     "titleColor": "#ffffff",
     "backgroundColor": "#0e3658",
